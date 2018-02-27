@@ -6,7 +6,7 @@
 /*   By: ysibous <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/26 21:27:28 by ysibous           #+#    #+#             */
-/*   Updated: 2018/02/26 23:53:26 by ysibous          ###   ########.fr       */
+/*   Updated: 2018/02/27 13:36:48 by adubugra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@
  */
 int		piece_fits_in_board(t_tetris *block, uint16_t *bit_map)
 {
-	return (!(*(uint64_t *)(block->y + bit_map) &
-				(block->bit_rep >> block->x)));
+	return (!(*(uint64_t *)((uint64_t)block->y + bit_map) &
+				(block->bit_rep >> block->x))); //if the block has a 1(which means #) in the same position as the 
 }
 
 /*
@@ -32,7 +32,7 @@ int		piece_fits_in_board(t_tetris *block, uint16_t *bit_map)
  */
 void	switch_piece_on_off(t_tetris *block, uint16_t *bit_map)
 {
-	*(uint64_t *)(block->y + bit_map) ^= (block->bit_rep >> block->x);
+	*(uint64_t *)((uint64_t)block->y + bit_map) ^= (block->bit_rep >> block->x);
 }
 
 /*
@@ -47,24 +47,27 @@ int		solve_bit_map(t_tetris *block, int size, uint16_t *bit_map)
 {
 	int pos;
 
-	if (!(block->bit_rep))
+	if (!(block->bit_rep)) //checking if its a hashtag
 		return (1);
-	if (block->prev)
-		pos = block->prev->x + (block->prev->y * size);
+	if (block->prev) //tests if its not the last
+		pos = block->prev->x + (block->prev->y * size); //set the buffer to the previous position
 	else
-		pos = 0;
-	block->y = (pos / size) - 1;
-	while (block->(++y) <= (size - block->height))
+		pos = 0; //if its the first, start at zero
+	block->y = (pos / size) - 1; //position it should be in the string
+	while (++(block->y) <= (size - block->height)) //dont go outside the size possibility
 	{
-		block->x = (block->y == (pos / size) ? (pos % size) : -1);
-		while (block->(++x) <= size - block->width)
-			if (piece_fits_in_board(block, bit_map))
-			{
-				switch_piece_on_off(block, bit_map);
-				if (solve_bit_map(block++, size, bit_map))
+		block->x = (block->y == (pos / size) ? (pos % size) : 0); // checks if its the first time.
+		while ((block->x) <= size - block->width) // not exceed range on horizontal
+		{
+			if (piece_fits_in_board(block, bit_map)) //checks with & if there is a one in the same place
+			{ //if it finds a position thats free i
+				switch_piece_on_off(block, bit_map);//switches ones and zeroes
+				if (solve_bit_map(block + 1, size, bit_map))
 					return (1);
 				switch_piece_on_off(block, bit_map);
 			}
+			(block->x)++;
+		}
 	}
 	block->x = 0;
 	block->y = 0;
@@ -83,33 +86,35 @@ int		solve(t_tetris *block, const int num_of_blocks,
 {
 	int	size;
 
-	size = 2;
-	while (size * size < (num_of_blocks * 4))
+	size = 2; //what is size? Minimun size of square to try?
+	while ((size * size) < (num_of_blocks * 4)) //why 4? Number of tetraminos?
 		size++;
-	size--;
-	while (++size <= 16 && !solve_bit_map(block, size, bit_map))
-		ft_bzero(bit_map, sizeof(uint16_t) * 16);
+	size--; 
+	while (++size <= 16 && !solve_bit_map(block, size, bit_map)) //keeps trying squares until it gets it or exceed 16 limit
+		ft_bzero(bit_map, sizeof(uint16_t) * 16);//clears the map every time it goes wrong
 	if (size >= 17)
 		return (0);
+	printf("solved! size is :%d\n",size);
 	return (size);
 }
 
 int		print_solve(t_tetris *first, int num_of_blocks)
 {
-	uint16_t	bit_map;
+	uint16_t	*bit_map;
 	int			size;
 
-	ft_bzero(first, sizeof(t_tetris));
-	if (!(num_of_blocks = get_num_tetriminos(str)))
+	bit_map = (uint16_t *)malloc(sizeof(uint16_t) * 16);//creates empty map;
+	if (!(num_of_blocks)) //tests wrong input
 	{
-		ft_putendl("failure");
+		ft_putendl("failure\n");
 		return (1);
 	}
-	ft_bzero(bit_map, sizeof(uint16_t) * 16);
-	if (!(size = solve(first, num_of_blocks, size)))
+	ft_bzero(bit_map, sizeof(uint16_t) * 16); 
+	if (!(size = solve(first, num_of_blocks, bit_map)))
 	{
 		ft_putendl("failure");
 		return (1);
 	}
 	print_map(first, num_of_blocks, size);
+	return (0);
 }

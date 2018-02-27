@@ -6,7 +6,7 @@
 /*   By: ysibous <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/26 15:38:12 by ysibous           #+#    #+#             */
-/*   Updated: 2018/02/26 23:44:14 by adubugra         ###   ########.fr       */
+/*   Updated: 2018/02/27 13:28:00 by adubugra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,6 @@ uint64_t	get_tetris_bit_value(const char *map, int height, int width,
 		x = -1;
 		while (++x < width)
 		{
-			print_bin(block_bit_representation);
-			printf("\n");
 			if (map[(m[0] + x) + ((m[2] + y) * 5)] == '#')
 				block_bit_representation |= (1L << (16 * (y + 1) - 1 - x));
 		}
@@ -72,16 +70,18 @@ uint64_t	get_tetris_bit_value(const char *map, int height, int width,
 	return (block_bit_representation);
 }
 
-t_tetris	create_tetris_struct(const char *map, const char letter)
+t_tetris	*create_tetris_struct(const char *map, const char letter)
 {
-	t_tetris new;
+	t_tetris *new;
 	int		pos[4];
 	
+	new = malloc(sizeof(t_tetris));
 	get_min_max_x_y(map, pos);
-	new.width = pos[1] - pos[0] + 1;
-	new.height = pos[3] - pos[2] + 1;
-	new.letter = letter;
-	new.bit_rep = get_tetris_bit_value(map, new.height, new.width, pos);
-	new.last = NULL;
+	new->width = pos[1] - pos[0] + 1;
+	new->height = pos[3] - pos[2] + 1;
+	new->letter = letter;
+	new->bit_rep = get_tetris_bit_value(map, new->height, new->width, pos);
+	new->prev = NULL;
+	new->next = NULL;
 	return (new);
 }

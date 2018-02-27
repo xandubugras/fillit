@@ -6,7 +6,7 @@
 /*   By: adubugra <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/26 10:41:50 by adubugra          #+#    #+#             */
-/*   Updated: 2018/02/26 23:32:58 by adubugra         ###   ########.fr       */
+/*   Updated: 2018/02/27 13:41:03 by adubugra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,14 @@ int		main(int argc, char **argv)
 		return (0);
 	}
 	if (check_entry(filename))
-		printf("failed test\n");
+	{
+		ft_putstr("failed test\n");
+		//return (1);
+	}
 	else
-		printf("passed test\n");
+		ft_putstr("passed test\n");
 	tetraminos = allocate_blocks(filename);
-	print_map(tetraminos);
-	print_elem(tetraminos);
+	print_solve(set_list_blocks(tetraminos), get_num_tetraminos(filename));
 	free_map(tetraminos);
 	printf("there are %d tetraminos\n", get_num_tetraminos(filename));
 	return (0);

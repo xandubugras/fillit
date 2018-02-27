@@ -6,7 +6,7 @@
 /*   By: adubugra <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/26 17:22:59 by adubugra          #+#    #+#             */
-/*   Updated: 2018/02/26 18:22:11 by adubugra         ###   ########.fr       */
+/*   Updated: 2018/02/27 00:05:27 by adubugra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,18 +58,6 @@ int			get_num_tetraminos(char *fname)
 	int file_len;
 	file_len = check_len(fname);
 	return ((file_len + 1) / 21);
-}
-
-void		print_map(char **tetraminos)
-{
-	int i;
-
-	i = 0;
-	while (tetraminos[i])
-	{
-		printf("%s\n", tetraminos[i]);
-		i++;
-	}
 }
 
 void		free_map(char **tetraminos)

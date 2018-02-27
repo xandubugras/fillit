@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   solver.c                                           :+:      :+:    :+:   */
+/*   construct_map.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ysibous <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: adubugra <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/02/26 14:30:55 by ysibous           #+#    #+#             */
-/*   Updated: 2018/02/26 15:37:17 by ysibous          ###   ########.fr       */
+/*   Created: 2018/02/27 00:21:49 by adubugra          #+#    #+#             */
+/*   Updated: 2018/02/27 13:34:59 by adubugra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
+#include <fillit.h>
 
 /*
  ** This function creates an empty map, this map will then be populated with
@@ -29,28 +29,29 @@ char	*create_empty_map(int size)
 		x = -1;
 		while (++x < size)
 			map[y * (size + 1) + x] = '.';
-		str[y * (size + 1) + x] = '\n';
+		map[y * (size + 1) + x] = '\n';
 	}
 	return (map);
 }
 
 /*
- * Check if entry is filled
+ * Check if entry is filled checks if it is a #
  */
-int		is_filled(int x, int y, t_tetris_map *t)
+int		is_filled(int x, int y, t_tetris *t)
 {
-	return (((t->value >> (16 * (y + 1) - 1 - x)) & 1) ? 1 : 0);
+	return (((t->bit_rep >> (16 * (y + 1) - 1 - x)) & 1) ? 1 : 0);
 }
 
 /*
  * Print solved map.
  */
-void	print_map(t_tetris_map *t, int count, int size)
+void	print_map(t_tetris *t, int count, int size)
 {
-	char	*map;
+	char	*str;
 	int		x;
 	int		y;
-
+	
+	str = create_empty_map(size);
 	while (count)
 	{
 		y = -1;
@@ -59,7 +60,11 @@ void	print_map(t_tetris_map *t, int count, int size)
 			x = -1;
 			while (++x < t->width)
 				if (is_filled(x, y, t))
-					str[]
+					str[(t->y + y) * (size + 1) + x + t->x] = t->letter;
 		}
+		t += 1;
+		count--;
 	}
+	ft_putstr(str);
+	ft_strdel(&str);
 }

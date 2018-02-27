@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main_solver.c                                      :+:      :+:    :+:   */
+/*   set_list.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adubugra <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/02/26 23:37:20 by adubugra          #+#    #+#             */
-/*   Updated: 2018/02/26 23:51:10 by adubugra         ###   ########.fr       */
+/*   Created: 2018/02/26 23:53:16 by adubugra          #+#    #+#             */
+/*   Updated: 2018/02/27 13:30:51 by adubugra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,18 +17,21 @@ t_tetris	*set_list_blocks(char **tetraminos)
 	char letter;
 	t_tetris *node;
 	t_tetris *tmp;
+	t_tetris *first;
 
 	letter = 'A';
-	node = &(create_tetris_struct(*tetraminos, letter));
+	first = (create_tetris_struct(*tetraminos, letter));
+	node = first;
 	tetraminos++;
 	letter++;
 	while (*tetraminos)
 	{
 		tmp = node;
 		node = create_tetris_struct(*tetraminos, letter);
-		node->last = tmp;
+		node->prev = tmp;
+		tmp->next = node;
 		letter++;
 		tetraminos++;
 	}
-	return (node);
+	return (first);
 }
