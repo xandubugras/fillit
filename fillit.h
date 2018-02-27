@@ -6,7 +6,7 @@
 /*   By: adubugra <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/26 10:41:02 by adubugra          #+#    #+#             */
-/*   Updated: 2018/02/26 20:16:47 by adubugra         ###   ########.fr       */
+/*   Updated: 2018/02/26 23:52:27 by adubugra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,6 @@
 # define ENDOFBLOCK file_cont[i] == '\n' && (file_cont[i + 1] == '\n' || file_cont[i + 1] == '\0')
 # include <libft.h>
 # include <fcntl.h>
-#define BYTE_TO_BINARY_PATTERN "%c%c%c%c%c%c%c%c"
-#define BYTE_TO_BINARY(byte)  \
-  (byte & 0x80 ? '1' : '0'), \
-  (byte & 0x40 ? '1' : '0'), \
-  (byte & 0x20 ? '1' : '0'), \
-  (byte & 0x10 ? '1' : '0'), \
-  (byte & 0x08 ? '1' : '0'), \
-  (byte & 0x04 ? '1' : '0'), \
-  (byte & 0x02 ? '1' : '0'), \
-  (byte & 0x01 ? '1' : '0')
 
 typedef struct	tetris
 {
@@ -72,5 +62,7 @@ uint64_t	get_tetris_bit_value(const char *map, int height, int width, int *m);
 void	get_min_max_x_y(const char *map, int *max_min_pos);
 
 void	print_bin(uint64_t n);
+
+int		set_list_blocks(char **tetraminos);
 
 #endif

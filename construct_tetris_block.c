@@ -6,7 +6,7 @@
 /*   By: ysibous <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/26 15:38:12 by ysibous           #+#    #+#             */
-/*   Updated: 2018/02/26 20:16:16 by adubugra         ###   ########.fr       */
+/*   Updated: 2018/02/26 23:44:14 by adubugra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,5 +82,6 @@ t_tetris	create_tetris_struct(const char *map, const char letter)
 	new.height = pos[3] - pos[2] + 1;
 	new.letter = letter;
 	new.bit_rep = get_tetris_bit_value(map, new.height, new.width, pos);
+	new.last = NULL;
 	return (new);
 }
