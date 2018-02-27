@@ -6,7 +6,7 @@
 #    By: adubugra <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/02/23 19:12:17 by adubugra          #+#    #+#              #
-#    Updated: 2018/02/26 11:48:52 by adubugra         ###   ########.fr        #
+#    Updated: 2018/02/26 17:31:28 by adubugra         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,8 @@ RLIB =	ranlib
 
 SRCS = main.c \
 	   check_entry.c \
-	   helpers.c
+	   helpers.c \
+	   allocate_blocks.c
 
 OBJS = $(SRCS:.c=.o)
 
