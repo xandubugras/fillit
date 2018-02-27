@@ -1,4 +1,4 @@
-/* ************************************************************************** */
+/************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   solve.c                                            :+:      :+:    :+:   */
@@ -6,7 +6,7 @@
 /*   By: ysibous <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/26 21:27:28 by ysibous           #+#    #+#             */
-/*   Updated: 2018/02/26 23:13:57 by ysibous          ###   ########.fr       */
+/*   Updated: 2018/02/26 23:53:26 by ysibous          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
  * shifted by the y index, and the bit representation of the block
  * shifted by the x position.
  */
-int		piece_fits_in_board(t_tetris *block, uint16_t bit_map)
+int		piece_fits_in_board(t_tetris *block, uint16_t *bit_map)
 {
 	return (!(*(uint64_t *)(block->y + bit_map) &
 				(block->bit_rep >> block->x)));
@@ -30,11 +30,9 @@ int		piece_fits_in_board(t_tetris *block, uint16_t bit_map)
  * operator on the bit_map and the bitwise representation of the piece to be
  * added. XOR is used to avoid any overlap.
  */
-void	switch_piece_on_off(t_tetris *block, uint16_t bit_map)
+void	switch_piece_on_off(t_tetris *block, uint16_t *bit_map)
 {
-	return (!(*(uint64_t *)(block->y + bit_map) ^=
-				(block->bit_rep >> block->x)));
-
+	*(uint64_t *)(block->y + bit_map) ^= (block->bit_rep >> block->x);
 }
 
 /*
@@ -49,10 +47,10 @@ int		solve_bit_map(t_tetris *block, int size, uint16_t *bit_map)
 {
 	int pos;
 
-	if (!(tetris->bit_rep))
+	if (!(block->bit_rep))
 		return (1);
 	if (block->prev)
-		pos = tetris->prev->x + (tetris->prev->y * size);
+		pos = block->prev->x + (block->prev->y * size);
 	else
 		pos = 0;
 	block->y = (pos / size) - 1;
@@ -94,4 +92,24 @@ int		solve(t_tetris *block, const int num_of_blocks,
 	if (size >= 17)
 		return (0);
 	return (size);
+}
+
+int		print_solve(t_tetris *first, int num_of_blocks)
+{
+	uint16_t	bit_map;
+	int			size;
+
+	ft_bzero(first, sizeof(t_tetris));
+	if (!(num_of_blocks = get_num_tetriminos(str)))
+	{
+		ft_putendl("failure");
+		return (1);
+	}
+	ft_bzero(bit_map, sizeof(uint16_t) * 16);
+	if (!(size = solve(first, num_of_blocks, size)))
+	{
+		ft_putendl("failure");
+		return (1);
+	}
+	print_map(first, num_of_blocks, size);
 }
