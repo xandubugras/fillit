@@ -6,12 +6,11 @@
 /*   By: ysibous <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/26 15:38:12 by ysibous           #+#    #+#             */
-/*   Updated: 2018/02/26 18:22:32 by ysibous          ###   ########.fr       */
+/*   Updated: 2018/02/26 20:16:16 by adubugra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <stdlib.h>
+#include <fillit.h>
 
 /*
  * Variable definitions
@@ -42,7 +41,7 @@ void	get_min_max_x_y(const char *map, int *max_min_pos)
 				max_min_pos[1] = i % 5;
 			if (i / 5 < max_min_pos[2])
 				max_min_pos[2] = i / 5;
-			if (i /p 5 > max_min_pos[3])
+			if (i / 5 > max_min_pos[3])
 				max_min_pos[3] = i / 5;
 		}
 }
@@ -63,13 +62,17 @@ uint64_t	get_tetris_bit_value(const char *map, int height, int width,
 	{
 		x = -1;
 		while (++x < width)
+		{
+			print_bin(block_bit_representation);
+			printf("\n");
 			if (map[(m[0] + x) + ((m[2] + y) * 5)] == '#')
 				block_bit_representation |= (1L << (16 * (y + 1) - 1 - x));
+		}
 	}
 	return (block_bit_representation);
 }
 
-void		create_tetris_struct(const char *map, const char letter)
+t_tetris	create_tetris_struct(const char *map, const char letter)
 {
 	t_tetris new;
 	int		pos[4];
@@ -79,4 +82,5 @@ void		create_tetris_struct(const char *map, const char letter)
 	new.height = pos[3] - pos[2] + 1;
 	new.letter = letter;
 	new.bit_rep = get_tetris_bit_value(map, new.height, new.width, pos);
+	return (new);
 }
