@@ -6,7 +6,7 @@
 /*   By: ysibous <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/26 21:27:28 by ysibous           #+#    #+#             */
-/*   Updated: 2018/02/27 16:54:30 by adubugra         ###   ########.fr       */
+/*   Updated: 2018/02/27 17:43:19 by adubugra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,10 +69,14 @@ int		solve_bit_map(t_tetris *block, int size, uint16_t *bit_map)
 				if (block->next)
 				{
 					if (solve_bit_map(block->next, size, bit_map))
+					{
 						return (1);
+					}
 				}
 				else
+				{
 					return (1);
+				}
 				switch_piece_on_off(block, bit_map);
 			}
 			(block->x)++;
@@ -105,7 +109,6 @@ int		solve(t_tetris *block, const int num_of_blocks,
 	}
 	if (size >= 17)
 		return (0);
-	printf("solved! size is :%d\n",size);
 	return (size);
 }
 
@@ -114,6 +117,7 @@ int		print_solve(t_tetris *first, int num_of_blocks)
 	uint16_t	*bit_map;
 	int			size;
 
+	size = 0;
 	bit_map = (uint16_t *)malloc(sizeof(uint16_t) * 16);//creates empty map;
 	ft_bzero(bit_map, sizeof(uint16_t) * 16); 
 	if (!(num_of_blocks)) //tests wrong input
@@ -130,7 +134,6 @@ int		print_solve(t_tetris *first, int num_of_blocks)
 	free(bit_map);
 	while (first!=NULL)
 	{
-		printf("letter: %c\n", first->letter);
 		free(first);
 		first = first->next;
 	}

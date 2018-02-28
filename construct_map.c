@@ -6,7 +6,7 @@
 /*   By: adubugra <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/27 00:21:49 by adubugra          #+#    #+#             */
-/*   Updated: 2018/02/27 15:08:57 by adubugra         ###   ########.fr       */
+/*   Updated: 2018/02/27 17:38:39 by adubugra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,16 +20,20 @@ char	*create_empty_map(int size)
 {
 	char	*map;
 	int		x;
-	int		y;
+	int 		y;
 
 	map = ft_strnew((size + 1) * size);
-	y = -1;
-	while (++y < size)
+	y = 0;
+	while (y < size)
 	{
-		x = -1;
-		while (++x < size)
+		x = 0;
+		while (x < size)
+		{
 			map[y * (size + 1) + x] = '.';
+			x++;
+		}
 		map[y * (size + 1) + x] = '\n';
+		y++;
 	}
 	map[(size + 1) * size] = '\0';
 	return (map);
@@ -63,7 +67,7 @@ void	print_map(t_tetris *t, int count, int size)
 				if (is_filled(x, y, t))
 					str[(t->y + y) * (size + 1) + x + t->x] = t->letter;
 		}
-		t += 1;
+		t = t->next;
 		count--;
 	}
 	str[(size + 1) * size] = '\0';

@@ -6,7 +6,7 @@
 /*   By: adubugra <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/26 10:41:02 by adubugra          #+#    #+#             */
-/*   Updated: 2018/02/27 16:53:53 by adubugra         ###   ########.fr       */
+/*   Updated: 2018/02/27 17:38:34 by adubugra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ t_tetris	*set_list_blocks(char **tetraminos);
 
 int		print_solve(t_tetris *first, int num_of_blocks);
 
-int		solve(t_tetris *tetris, const int count, uint16_t *map);
 int		solve(t_tetris *block, const int num_of_blocks, uint16_t *bit_map);
 
 int		solve_bit_map(t_tetris *block, int size, uint16_t *bit_map);
