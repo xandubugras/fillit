@@ -6,23 +6,24 @@
 /*   By: ysibous <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/26 15:38:12 by ysibous           #+#    #+#             */
-/*   Updated: 2018/02/27 16:21:43 by adubugra         ###   ########.fr       */
+/*   Updated: 2018/02/27 19:00:41 by ysibous          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <fillit.h>
 
 /*
- * Variable definitions
- * char *map - the character representation of the tetrimino
- * max_min_pos, pos - holds the min and max x,y indices of the tetrimino
- * block_bit_representation - holds the bit representation of the tetrimino
- */
+** Variable definitions
+** char *map - the character representation of the tetrimino
+** max_min_pos, pos - holds the min and max x,y indices of the tetrimino
+** block_bit_representation - holds the bit representation of the tetrimino
+*/
 
 /*
- * This function returns the min and max indices of the tetrimino.
- */
-void	get_min_max_x_y(const char *map, int *max_min_pos)
+** This function returns the min and max indices of the tetrimino.
+*/
+
+void		get_min_max_x_y(const char *map, int *max_min_pos)
 {
 	int i;
 
@@ -31,7 +32,6 @@ void	get_min_max_x_y(const char *map, int *max_min_pos)
 	max_min_pos[1] = 0;
 	max_min_pos[2] = 3;
 	max_min_pos[3] = 0;
-
 	while (map[i])
 	{
 		if (map[i] == '#')
@@ -50,8 +50,9 @@ void	get_min_max_x_y(const char *map, int *max_min_pos)
 }
 
 /*
- * This function returns a bit representation of the tetrimino.
- */
+** This function returns a bit representation of the tetrimino.
+*/
+
 uint64_t	get_tetris_bit_value(const char *map, int height, int width,
 		int *m)
 {
@@ -72,18 +73,14 @@ uint64_t	get_tetris_bit_value(const char *map, int height, int width,
 		}
 		y++;
 	}
-	if (block_bit_representation == 0)
-	{
-		printf("OVER BOII\n");
-	}
 	return (block_bit_representation);
 }
 
 t_tetris	*create_tetris_struct(const char *map, const char letter)
 {
-	t_tetris *new;
-	int		pos[4];
-	
+	t_tetris	*new;
+	int			pos[4];
+
 	new = (t_tetris *)malloc(sizeof(t_tetris));
 	get_min_max_x_y(map, pos);
 	new->width = pos[1] - pos[0] + 1;

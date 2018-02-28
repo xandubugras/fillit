@@ -6,21 +6,22 @@
 /*   By: adubugra <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/27 00:21:49 by adubugra          #+#    #+#             */
-/*   Updated: 2018/02/27 17:38:39 by adubugra         ###   ########.fr       */
+/*   Updated: 2018/02/27 18:57:37 by ysibous          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <fillit.h>
 
 /*
- ** This function creates an empty map, this map will then be populated with
- ** the pieces.
- */
+** This function creates an empty map, this map will then be populated with
+** the pieces.
+*/
+
 char	*create_empty_map(int size)
 {
 	char	*map;
 	int		x;
-	int 		y;
+	int		y;
 
 	map = ft_strnew((size + 1) * size);
 	y = 0;
@@ -40,22 +41,24 @@ char	*create_empty_map(int size)
 }
 
 /*
- * Check if entry is filled checks if it is a #
- */
+** Check if entry is filled checks if it is a #
+*/
+
 int		is_filled(int x, int y, t_tetris *t)
 {
 	return (((t->bit_rep >> (16 * (y + 1) - 1 - x)) & 1) ? 1 : 0);
 }
 
 /*
- * Print solved map.
- */
+** Print solved map.
+*/
+
 void	print_map(t_tetris *t, int count, int size)
 {
 	char	*str;
 	int		x;
 	int		y;
-	
+
 	str = create_empty_map(size);
 	while (count)
 	{
