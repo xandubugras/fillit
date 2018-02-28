@@ -6,7 +6,7 @@
 /*   By: adubugra <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/26 10:41:02 by adubugra          #+#    #+#             */
-/*   Updated: 2018/02/27 19:55:43 by ysibous          ###   ########.fr       */
+/*   Updated: 2018/02/27 19:58:20 by adubugra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ typedef struct		s_tetris
 	int				x;
 	int				y;
 	struct s_tetris	*next;
+	struct s_tetris	*prev;
 }					t_tetris;
 
 int					check_entry(int fd, int num_tetraminos);
