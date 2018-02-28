@@ -6,13 +6,13 @@
 /*   By: adubugra <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/26 17:22:59 by adubugra          #+#    #+#             */
-/*   Updated: 2018/02/27 15:47:23 by adubugra         ###   ########.fr       */
+/*   Updated: 2018/02/27 18:45:43 by adubugra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <fillit.h>
 
-char		**allocate_blocks(char *file_cont, int file_len)
+char	**allocate_blocks(char *file_cont, int file_len)
 {
 	int		i;
 	int		j;
@@ -37,7 +37,6 @@ char		**allocate_blocks(char *file_cont, int file_len)
 		k++;
 		j = 0;
 	}
-	//free(tetraminos[file_len / 21]);
 	tetraminos[file_len / 21] = NULL;
 	return (tetraminos);
 }
@@ -56,14 +55,15 @@ int		check_len(char *filename)
 	return (i);
 }
 
-int			get_num_tetraminos(char *fname)
+int		get_num_tetraminos(char *fname)
 {
 	int file_len;
+
 	file_len = check_len(fname);
 	return ((file_len + 1) / 21);
 }
 
-void		free_tetraminos_str(char **tetraminos)
+void	free_tetraminos_str(char **tetraminos)
 {
 	char **init;
 

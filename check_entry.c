@@ -6,18 +6,21 @@
 /*   By: adubugra <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/26 10:48:13 by adubugra          #+#    #+#             */
-/*   Updated: 2018/02/27 18:37:47 by adubugra         ###   ########.fr       */
+/*   Updated: 2018/02/27 18:58:44 by adubugra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <fillit.h>
 
-/* tests to be made:
- * if there are only dots and #; done
- * if there are more than 4 characters every line; done
- * if there are more than 4 lines between each empty line; done
- * if there are # different than 4
- * if there are non-touching # */
+/*
+** tests to be made:
+** if there are only dots and #; done
+** if there are more than 4 characters every line; done
+** if there are more than 4 lines between each empty line; done
+** if there are # different than 4
+** if there are non-touching #
+*/
+
 int		check_entry(int fd, int num_tetraminos)
 {
 	char	reader[22];
@@ -30,26 +33,23 @@ int		check_entry(int fd, int num_tetraminos)
 	{
 		i++;
 		if (check_characters_and_num(reader))
-		{
 			return (1);
-		}
 		if (count == 21 && reader[20] != '\n')
-		{
-				return (1);
-		}
+			return (1);
 		else if (count == 21 && i == num_tetraminos)
 			return (1);
 		if (hashtag_position(reader))
-		{
 			return (1);
-		}
 	}
 	if (count < 21 && count > 0)
 		return (1);
 	return (0);
 }
 
-/*checks if there are only dots and # (+ \n and \0) in the file*/
+/*
+** checks if there are only dots and # (+ \n and \0) in the file
+*/
+
 int		check_characters_and_num(char reader[22])
 {
 	int		i;
