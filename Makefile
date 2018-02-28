@@ -6,7 +6,7 @@
 #    By: adubugra <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/02/23 19:12:17 by adubugra          #+#    #+#              #
-#    Updated: 2018/02/27 16:53:30 by adubugra         ###   ########.fr        #
+#    Updated: 2018/02/27 17:45:55 by adubugra         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,7 @@ $(NAME):
 		@$(LIB) $(NAME) $(OBJS)
 		@$(RLIB) $(NAME)
 		@/bin/rm -f $(OBJS)
-		@$(CC) $(FLAG) -o a.out $(SRCS) libft.a
+		@$(CC) $(FLAG) -o fillit $(SRCS) libft.a
 
 clean:
 		@/bin/rm -f $(OBJS)

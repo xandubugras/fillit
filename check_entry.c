@@ -6,7 +6,7 @@
 /*   By: adubugra <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/26 10:48:13 by adubugra          #+#    #+#             */
-/*   Updated: 2018/02/27 14:20:42 by adubugra         ###   ########.fr       */
+/*   Updated: 2018/02/27 18:37:47 by adubugra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,30 +18,34 @@
  * if there are more than 4 lines between each empty line; done
  * if there are # different than 4
  * if there are non-touching # */
-int		check_entry(int fd)
+int		check_entry(int fd, int num_tetraminos)
 {
 	char	reader[22];
 	int		count;
+	int		i;
 
+	i = 0;
 	reader[21] = '\0';
 	while ((count = read(fd, reader, 21)) >= 20)
 	{
+		i++;
 		if (check_characters_and_num(reader))
 		{
-			printf("WRONG CHARACTERS\n");
 			return (1);
 		}
 		if (count == 21 && reader[20] != '\n')
 		{
-			printf("WRONG DIMENSIONS\n");
-			return (1);
+				return (1);
 		}
+		else if (count == 21 && i == num_tetraminos)
+			return (1);
 		if (hashtag_position(reader))
 		{
-			printf("HASHTAGS NOT TOUCHING\n");
 			return (1);
 		}
 	}
+	if (count < 21 && count > 0)
+		return (1);
 	return (0);
 }
 
@@ -59,12 +63,10 @@ int		check_characters_and_num(char reader[22])
 		{
 			if (reader[i] != '.' && reader[i] != '#')
 			{
-				ft_putstr("not a . or #\n");
 				return (1);
 			}
 			if (reader[i] == '#' && ++blocks > 4)
 			{
-				ft_putstr("more than 4 hashtahgs\n");
 				return (1);
 			}
 		}

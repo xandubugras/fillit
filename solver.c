@@ -6,7 +6,7 @@
 /*   By: ysibous <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/26 21:27:28 by ysibous           #+#    #+#             */
-/*   Updated: 2018/02/27 17:43:19 by adubugra         ###   ########.fr       */
+/*   Updated: 2018/02/27 18:23:22 by adubugra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
  */
 int		piece_fits_in_board(t_tetris *block, uint16_t *bit_map)
 {
-	return (!(*(uint64_t *)((uint64_t)block->y + bit_map) &
+	return (!(*(uint64_t *)(block->y + bit_map) &
 				(block->bit_rep >> block->x))); //if the block has a 1(which means #) in the same position as the 
 }
 
@@ -33,7 +33,7 @@ int		piece_fits_in_board(t_tetris *block, uint16_t *bit_map)
  */
 void	switch_piece_on_off(t_tetris *block, uint16_t *bit_map)
 {
-	*(uint64_t *)((uint64_t)block->y + bit_map) ^= (block->bit_rep >> block->x);
+	*(uint64_t *)(block->y + bit_map) ^= (block->bit_rep >> block->x);
 }
 
 /*
@@ -49,12 +49,12 @@ int		solve_bit_map(t_tetris *block, int size, uint16_t *bit_map)
 	int pos;
 
 	pos = 0;
-	if (!(block->bit_rep)) //checking if its a hashtag
+	if (!(block)) //checking if its a hashtag
 	{
 		return (1);
 	}
-	if (block->prev) //tests if its not the last
-		pos = block->prev->x + (block->prev->y * size); //set the buffer to the previous position
+	if (block->next) //tests if its not the last
+		pos = block->next->x + (block->next->y * size); //set the buffer to the previous position
 	else
 		pos = 0; //if its the first, start at zero
 	block->y = (pos / size) - 1; //position it should be in the string
@@ -75,7 +75,7 @@ int		solve_bit_map(t_tetris *block, int size, uint16_t *bit_map)
 				}
 				else
 				{
-					return (1);
+						return (1);
 				}
 				switch_piece_on_off(block, bit_map);
 			}
@@ -122,12 +122,12 @@ int		print_solve(t_tetris *first, int num_of_blocks)
 	ft_bzero(bit_map, sizeof(uint16_t) * 16); 
 	if (!(num_of_blocks)) //tests wrong input
 	{
-		ft_putendl("failure\n");
+		ft_putendl("error");
 		return (1);
 	}
 	if (!(size = solve(first, num_of_blocks, bit_map)))
 	{
-		ft_putendl("failure");
+		ft_putendl("error");
 		return (1);
 	}
 	print_map(first, num_of_blocks, size);
