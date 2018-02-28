@@ -6,13 +6,14 @@
 /*   By: ysibous <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/26 21:27:28 by ysibous           #+#    #+#             */
-/*   Updated: 2018/02/27 13:36:48 by adubugra         ###   ########.fr       */
+/*   Updated: 2018/02/27 16:54:30 by adubugra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <fillit.h>
 
 /*
+ * checked with the beast's file and bug remains
  * This function check whether the piece could fit on the board given its
  * position. This is done by using the bitwise AND operator between the map
  * shifted by the y index, and the bit representation of the block
@@ -47,8 +48,11 @@ int		solve_bit_map(t_tetris *block, int size, uint16_t *bit_map)
 {
 	int pos;
 
+	pos = 0;
 	if (!(block->bit_rep)) //checking if its a hashtag
+	{
 		return (1);
+	}
 	if (block->prev) //tests if its not the last
 		pos = block->prev->x + (block->prev->y * size); //set the buffer to the previous position
 	else
@@ -62,7 +66,12 @@ int		solve_bit_map(t_tetris *block, int size, uint16_t *bit_map)
 			if (piece_fits_in_board(block, bit_map)) //checks with & if there is a one in the same place
 			{ //if it finds a position thats free i
 				switch_piece_on_off(block, bit_map);//switches ones and zeroes
-				if (solve_bit_map(block + 1, size, bit_map))
+				if (block->next)
+				{
+					if (solve_bit_map(block->next, size, bit_map))
+						return (1);
+				}
+				else
 					return (1);
 				switch_piece_on_off(block, bit_map);
 			}
@@ -86,12 +95,14 @@ int		solve(t_tetris *block, const int num_of_blocks,
 {
 	int	size;
 
-	size = 2; //what is size? Minimun size of square to try?
-	while ((size * size) < (num_of_blocks * 4)) //why 4? Number of tetraminos?
+	size = 2;
+	while ((size * size) < (num_of_blocks * 4))
 		size++;
 	size--; 
 	while (++size <= 16 && !solve_bit_map(block, size, bit_map)) //keeps trying squares until it gets it or exceed 16 limit
+	{
 		ft_bzero(bit_map, sizeof(uint16_t) * 16);//clears the map every time it goes wrong
+	}
 	if (size >= 17)
 		return (0);
 	printf("solved! size is :%d\n",size);
@@ -104,17 +115,24 @@ int		print_solve(t_tetris *first, int num_of_blocks)
 	int			size;
 
 	bit_map = (uint16_t *)malloc(sizeof(uint16_t) * 16);//creates empty map;
+	ft_bzero(bit_map, sizeof(uint16_t) * 16); 
 	if (!(num_of_blocks)) //tests wrong input
 	{
 		ft_putendl("failure\n");
 		return (1);
 	}
-	ft_bzero(bit_map, sizeof(uint16_t) * 16); 
 	if (!(size = solve(first, num_of_blocks, bit_map)))
 	{
 		ft_putendl("failure");
 		return (1);
 	}
 	print_map(first, num_of_blocks, size);
+	free(bit_map);
+	while (first!=NULL)
+	{
+		printf("letter: %c\n", first->letter);
+		free(first);
+		first = first->next;
+	}
 	return (0);
 }

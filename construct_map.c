@@ -6,7 +6,7 @@
 /*   By: adubugra <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/27 00:21:49 by adubugra          #+#    #+#             */
-/*   Updated: 2018/02/27 13:34:59 by adubugra         ###   ########.fr       */
+/*   Updated: 2018/02/27 15:08:57 by adubugra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ char	*create_empty_map(int size)
 			map[y * (size + 1) + x] = '.';
 		map[y * (size + 1) + x] = '\n';
 	}
+	map[(size + 1) * size] = '\0';
 	return (map);
 }
 
@@ -65,6 +66,7 @@ void	print_map(t_tetris *t, int count, int size)
 		t += 1;
 		count--;
 	}
+	str[(size + 1) * size] = '\0';
 	ft_putstr(str);
 	ft_strdel(&str);
 }

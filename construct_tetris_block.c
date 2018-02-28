@@ -6,7 +6,7 @@
 /*   By: ysibous <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/26 15:38:12 by ysibous           #+#    #+#             */
-/*   Updated: 2018/02/27 13:28:00 by adubugra         ###   ########.fr       */
+/*   Updated: 2018/02/27 16:21:43 by adubugra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,14 @@ void	get_min_max_x_y(const char *map, int *max_min_pos)
 {
 	int i;
 
-	i = -1;
+	i = 0;
 	max_min_pos[0] = 3;
 	max_min_pos[1] = 0;
 	max_min_pos[2] = 3;
 	max_min_pos[3] = 0;
 
-	while (map[++i])
+	while (map[i])
+	{
 		if (map[i] == '#')
 		{
 			if (i % 5 < max_min_pos[0])
@@ -44,6 +45,8 @@ void	get_min_max_x_y(const char *map, int *max_min_pos)
 			if (i / 5 > max_min_pos[3])
 				max_min_pos[3] = i / 5;
 		}
+		i++;
+	}
 }
 
 /*
@@ -56,16 +59,22 @@ uint64_t	get_tetris_bit_value(const char *map, int height, int width,
 	int			y;
 	uint64_t	block_bit_representation;
 
-	y = -1;
+	y = 0;
 	block_bit_representation = 0;
-	while (++y < height)
+	while (y < height)
 	{
-		x = -1;
-		while (++x < width)
+		x = 0;
+		while (x < width)
 		{
 			if (map[(m[0] + x) + ((m[2] + y) * 5)] == '#')
 				block_bit_representation |= (1L << (16 * (y + 1) - 1 - x));
+			x++;
 		}
+		y++;
+	}
+	if (block_bit_representation == 0)
+	{
+		printf("OVER BOII\n");
 	}
 	return (block_bit_representation);
 }
@@ -75,7 +84,7 @@ t_tetris	*create_tetris_struct(const char *map, const char letter)
 	t_tetris *new;
 	int		pos[4];
 	
-	new = malloc(sizeof(t_tetris));
+	new = (t_tetris *)malloc(sizeof(t_tetris));
 	get_min_max_x_y(map, pos);
 	new->width = pos[1] - pos[0] + 1;
 	new->height = pos[3] - pos[2] + 1;
@@ -83,5 +92,7 @@ t_tetris	*create_tetris_struct(const char *map, const char letter)
 	new->bit_rep = get_tetris_bit_value(map, new->height, new->width, pos);
 	new->prev = NULL;
 	new->next = NULL;
+	new->x = 0;
+	new->y = 0;
 	return (new);
 }

@@ -6,13 +6,12 @@
 /*   By: adubugra <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/26 10:41:02 by adubugra          #+#    #+#             */
-/*   Updated: 2018/02/27 13:27:39 by adubugra         ###   ########.fr       */
+/*   Updated: 2018/02/27 16:53:53 by adubugra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FILLIT_H
 # define FILLIT_H
-# define ENDOFBLOCK file_cont[i] == '\n' && (file_cont[i + 1] == '\n' || file_cont[i + 1] == '\0')
 # include <libft.h>
 # include <fcntl.h>
 
@@ -28,27 +27,19 @@ typedef struct	tetris
 	struct tetris	*next;
 }				t_tetris;
 
-int		check_entry(char *fname);
+int		check_entry(int fd);
 
-int		check_characters(char *fname);
+int		check_characters_and_num(char reader[22]);
 
 int		check_len(char *fname);
 
 int		end_of_block(char *file_cont, int *i);
 
-int		check_nearby_hashed(char *file_cont, int i);
+int		hashtag_position(const char str[22]);
 
-int		check_dimensions(char *fname);
+char	**allocate_blocks(char *file_cont, int file_len);
 
-int		conditions_dimensions(char *file_cont, int *width, int *line, int i);
-
-int		num_of_hashtags(char *fname);
-
-int		hashtag_position(char *fname, int hashnum, int starter, int block_num);
-
-char	**allocate_blocks(char *fname);
-
-void	free_map(char **tetraminos);
+void	free_tetraminos_str(char **tetraminos);
 
 int		get_num_tetraminos(char *fname);
 
@@ -64,6 +55,7 @@ t_tetris	*set_list_blocks(char **tetraminos);
 
 int		print_solve(t_tetris *first, int num_of_blocks);
 
+int		solve(t_tetris *tetris, const int count, uint16_t *map);
 int		solve(t_tetris *block, const int num_of_blocks, uint16_t *bit_map);
 
 int		solve_bit_map(t_tetris *block, int size, uint16_t *bit_map);
